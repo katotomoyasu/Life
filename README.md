@@ -35,3 +35,4 @@ BETWEEN Format(DateSerial(Year(Date())-1, Month(Date())-1, 1), "yyyymm") AND For
 一旦実行してみた
 Q_N日前出荷数集計クエリーは一通り海外の条件入れました。
 Q_1年合計出荷数　条件追加
+Q_結果出力NEW フィールドを追加
