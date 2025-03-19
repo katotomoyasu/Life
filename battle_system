@@ -189,7 +189,78 @@ class BattleLog:
             for level_up in level_ups:
                 print(f"  {level_up['character']}: Lv.{level_up['old_level']} → Lv.{level_up['new_level']}")
 
-
+    def draw_slime(ax, x, y, size=10, color='#6495ED'):
+        """スライムのグラフィックを描画する関数
+        
+        Args:
+            ax: matplotlib axes
+            x, y: 描画位置の座標
+            size: スライムのサイズ
+            color: スライムの色
+        """
+        import matplotlib.path as mpath
+        import matplotlib.patches as mpatches
+        
+        # スライムの本体（楕円形）
+        body_width = size * 1.2
+        body_height = size * 0.8
+        body = mpatches.Ellipse((x + size/2, y + size/2), 
+                               body_width, body_height, 
+                               facecolor=color, alpha=0.9, 
+                               edgecolor='black', linewidth=1)
+        ax.add_patch(body)
+        
+        # スライムの下部（波状の形）
+        bottom_y = y + size/2 - body_height/2 + size*0.1
+        wave_path = mpath.Path
+        path_data = [
+            (wave_path.MOVETO, (x, bottom_y)),
+        ]
+        
+        # 波状の下部を作成
+        num_waves = 5
+        wave_width = body_width / num_waves
+        wave_height = size * 0.15
+        
+        for i in range(num_waves + 1):
+            wave_x = x + i * wave_width
+            if i % 2 == 0:
+                path_data.append(
+                    (wave_path.CURVE3, (wave_x, bottom_y - wave_height))
+                )
+            else:
+                path_data.append(
+                    (wave_path.CURVE3, (wave_x, bottom_y))
+                )
+        
+        path_data.append(
+            (wave_path.CLOSEPOLY, (x, bottom_y))
+        )
+        
+        codes, verts = zip(*path_data)
+        path = mpath.Path(verts, codes)
+        patch = mpatches.PathPatch(path, facecolor=color, alpha=0.8, 
+                                  edgecolor='black', linewidth=1)
+        ax.add_patch(patch)
+        
+        # スライムの目（2つの黒い点）
+        eye_size = size * 0.15
+        eye_y = y + size*0.6
+        # 左目
+        left_eye = mpatches.Circle((x + size*0.35, eye_y), eye_size, 
+                                  facecolor='black', zorder=10)
+        # 右目
+        right_eye = mpatches.Circle((x + size*0.65, eye_y), eye_size, 
+                                   facecolor='black', zorder=10)
+        
+        ax.add_patch(left_eye)
+        ax.add_patch(right_eye)
+        
+        # スライムのハイライト（白い楕円）
+        highlight = mpatches.Ellipse((x + size*0.35, y + size*0.8), 
+                                    size*0.25, size*0.15, 
+                                    facecolor='white', alpha=0.7, zorder=5)
+        ax.add_patch(highlight)
 # 2025.3.19 画面描画関数
 def display_battle_scene(player, enemy, turn=1, message="バトル開始！"):
     """戦闘画面を表示する関数
@@ -212,11 +283,16 @@ def display_battle_scene(player, enemy, turn=1, message="バトル開始！"):
     # 背景色
     ax.add_patch(Rectangle((0, 0), 100, 60, facecolor='#e6e6fa'))
     
-    # プレイヤーキャラクター
+    # プレイヤーキャラクター（矩形）
     ax.add_patch(Rectangle((20, 15), 8, 16, facecolor='blue'))
     
-    # 敵キャラクター
-    ax.add_patch(Rectangle((70, 15), 10, 10, facecolor='red'))
+    # 敵キャラクター（スライムの画像）
+    if enemy and "スライム" in enemy.name:
+        # スライムのSVG画像を描画
+        draw_slime(ax, 70, 15, size=10, color='#6495ED')
+    else:
+        # その他の敵は矩形で表示
+        ax.add_patch(Rectangle((70, 15), 10, 10, facecolor='red'))
     
     # プレイヤーHPバー
     max_hp_width = 20
@@ -226,10 +302,11 @@ def display_battle_scene(player, enemy, turn=1, message="バトル開始！"):
     ax.add_patch(Rectangle((10, 40), hp_width, 3, facecolor='green'))
     
     # 敵HPバー
-    enemy_hp_ratio = max(0, enemy.current_hp / enemy.max_hp)
-    enemy_hp_width = max_hp_width * enemy_hp_ratio
-    ax.add_patch(Rectangle((70, 40), max_hp_width, 3, facecolor='#cccccc'))
-    ax.add_patch(Rectangle((70, 40), enemy_hp_width, 3, facecolor='red'))
+    if enemy:
+        enemy_hp_ratio = max(0, enemy.current_hp / enemy.max_hp)
+        enemy_hp_width = max_hp_width * enemy_hp_ratio
+        ax.add_patch(Rectangle((70, 40), max_hp_width, 3, facecolor='#cccccc'))
+        ax.add_patch(Rectangle((70, 40), enemy_hp_width, 3, facecolor='red'))
     
     # MPバー（プレイヤー）
     mp_ratio = player.current_mp / player.max_mp
@@ -242,8 +319,9 @@ def display_battle_scene(player, enemy, turn=1, message="バトル開始！"):
     ax.text(10, 42, f"HP: {player.current_hp}/{player.max_hp}")
     ax.text(10, 34, f"MP: {player.current_mp}/{player.max_mp}")
     
-    ax.text(70, 45, f"{enemy.name} (Lv.{enemy.level})")
-    ax.text(70, 42, f"HP: {enemy.current_hp}/{enemy.max_hp}")
+    if enemy:
+        ax.text(70, 45, f"{enemy.name} (Lv.{enemy.level})")
+        ax.text(70, 42, f"HP: {enemy.current_hp}/{enemy.max_hp}")
     
     # タイトルとターン情報
     ax.text(50, 55, "RPGバトル", fontsize=14, ha='center')
@@ -265,7 +343,6 @@ def display_battle_scene(player, enemy, turn=1, message="バトル開始！"):
     
     plt.tight_layout()
     plt.show()
-
 
 # ## 戦闘システムクラス
 
@@ -304,7 +381,10 @@ class BattleSystem:
         
         # 戦闘開始メッセージ
         enemy_names = [enemy.name for enemy in self.enemy_team]
-        self._print_battle_message(f"{'、'.join(enemy_names)}が現れた！")
+        if len(self.enemy_team) == 1 and "スライム" in self.enemy_team[0].name:
+            self._print_battle_message(f"{self.enemy_team[0].name}がぷるぷると現れた！")
+        else:
+            self._print_battle_message(f"{'、'.join(enemy_names)}が現れた！")
         
         # 視覚モードが有効な場合、戦闘開始画面を表示
         if self.visual_mode and self.player_team and self.enemy_team:
@@ -439,17 +519,25 @@ class BattleSystem:
             return
         
         target = alive_enemies[0]
-        self._print_battle_message(f"{character.name}の攻撃！")
+        
+        # スライムに対する特別なメッセージ
+        if "スライム" in target.name:
+            self._print_battle_message(f"{character.name}の攻撃！ スライムに剣を振り下ろした！")
+        else:
+            self._print_battle_message(f"{character.name}の攻撃！")
         
         damage = character.attack(target)
         self._print_battle_message(f"{target.name}に{damage}のダメージ！")
         
         # 行動を記録
         self.battle_log.add_action(character, 'attack', target, damage=damage)
-        
+    
         # 敵が倒れた場合
         if not target.is_alive:
-            self._print_battle_message(f"{target.name}を倒した！")
+            if "スライム" in target.name:
+                self._print_battle_message(f"{target.name}はぷちゅんと弾けて消えた！")
+            else:
+                self._print_battle_message(f"{target.name}を倒した！")
     
     def _enemy_action(self, enemy: Enemy) -> None:
         """敵キャラクターの行動を処理
@@ -468,7 +556,12 @@ class BattleSystem:
         
         if action['type'] == 'attack':
             target = action['target']
-            self._print_battle_message(f"{enemy.name}の攻撃！")
+            
+            # スライムの特別な攻撃メッセージ
+            if "スライム" in enemy.name:
+                self._print_battle_message(f"{enemy.name}がぷるぷると体を揺らした！")
+            else:
+                self._print_battle_message(f"{enemy.name}の攻撃！")
             
             damage = enemy.attack(target)
             self._print_battle_message(f"{target.name}に{damage}のダメージ！")
@@ -479,7 +572,6 @@ class BattleSystem:
             # プレイヤーが倒れた場合
             if not target.is_alive:
                 self._print_battle_message(f"{target.name}は倒れた！")
-    
     def _check_battle_end(self) -> str:
         """戦闘終了条件をチェック
         
