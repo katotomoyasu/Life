@@ -318,33 +318,6 @@ visual_result, visual_log = run_visual_battle()
 
 # 戦闘統計を可視化
 visualize_battle_stats(balance_stats)
-# RPGシミュレーター - バトル画面表示の統合
-
-
-# class BattleSystem:
-#     # 既存のコードはそのままに、以下のメソッドを追加または修正
-    
-#     def __init__(self, player_team: List[PlayerCharacter], enemy_team: List[Enemy],
-#                  show_detailed_log: bool = True, visual_mode: bool = False):
-#         """戦闘システムの初期化
-        
-#         Args:
-#             player_team: プレイヤーキャラクターのリスト
-#             enemy_team: 敵キャラクターのリスト
-#             show_detailed_log: 詳細な戦闘ログを表示するかどうか
-#             visual_mode: 視覚的表示モードを使用するかどうか
-#         """
-#         self.player_team = player_team
-#         self.enemy_team = enemy_team
-#         self.battle_log = BattleLog()
-#         self.show_detailed_log = show_detailed_log
-#         self.visual_mode = visual_mode
-#         self.current_turn = 0
-    
-# 視覚モードの戦闘テスト
-visual_result, visual_log = run_visual_battle()
-# 戦闘統計を可視化
-visualize_battle_stats(balance_stats)
 
 # ## まとめと次のステップ
 
