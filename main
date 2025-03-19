@@ -85,7 +85,7 @@ def create_sample_data_files():
             "speed": 6,
             "level": 1,
             "exp_reward": 15,
-            "enemy_type": "通常"
+            "enemy_type": "スライム"
         },
         {
             "name": "ゴブリン",
