@@ -1,0 +1,50 @@
+[
+    {
+        "name": "スライム",
+        "hp": 50,
+        "mp": 0,
+        "strength": 8,
+        "defense": 5,
+        "magic": 0,
+        "speed": 6,
+        "level": 1,
+        "exp_reward": 15,
+        "enemy_type": "スライム"
+    },
+    {
+        "name": "ゴブリン",
+        "hp": 80,
+        "mp": 10,
+        "strength": 12,
+        "defense": 8,
+        "magic": 4,
+        "speed": 10,
+        "level": 2,
+        "exp_reward": 25,
+        "enemy_type": "通常"
+    },
+    {
+        "name": "オオカミ",
+        "hp": 65,
+        "mp": 0,
+        "strength": 14,
+        "defense": 6,
+        "magic": 0,
+        "speed": 14,
+        "level": 2,
+        "exp_reward": 30,
+        "enemy_type": "獣"
+    },
+    {
+        "name": "ゴーレム",
+        "hp": 150,
+        "mp": 0,
+        "strength": 18,
+        "defense": 15,
+        "magic": 0,
+        "speed": 5,
+        "level": 5,
+        "exp_reward": 100,
+        "enemy_type": "ボス"
+    }
+]

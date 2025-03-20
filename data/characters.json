@@ -1,0 +1,41 @@
+[
+    {
+        "name": "勇者",
+        "hp": 100,
+        "mp": 50,
+        "strength": 15,
+        "defense": 10,
+        "magic": 8,
+        "speed": 12,
+        "level": 1,
+        "job": "戦士",
+        "exp": 0,
+        "next_level_exp": 100
+    },
+    {
+        "name": "魔法使い",
+        "hp": 70,
+        "mp": 100,
+        "strength": 6,
+        "defense": 6,
+        "magic": 18,
+        "speed": 10,
+        "level": 1,
+        "job": "魔法使い",
+        "exp": 0,
+        "next_level_exp": 100
+    },
+    {
+        "name": "盗賊",
+        "hp": 80,
+        "mp": 40,
+        "strength": 12,
+        "defense": 8,
+        "magic": 7,
+        "speed": 15,
+        "level": 1,
+        "job": "盗賊",
+        "exp": 0,
+        "next_level_exp": 100
+    }
+]
