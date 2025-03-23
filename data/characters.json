@@ -1,50 +1,41 @@
-{
-  "勇者": {
-    "hp": 100,
-    "mp": 50,
-    "attack": 15,
-    "defense": 10,
-    "speed": 10,
-    "description": "勇敢な冒険者"
-  },
-  "戦士": {
-    "hp": 130,
-    "mp": 20,
-    "attack": 18,
-    "defense": 15,
-    "speed": 7,
-    "description": "強力な近接攻撃が得意"
-  },
-  "魔法使い": {
-    "hp": 70,
-    "mp": 100,
-    "attack": 8,
-    "defense": 5,
-    "speed": 12,
-    "description": "魔法攻撃を得意とする"
-  },
-  "ゴブリン": {
-    "hp": 70,
-    "mp": 20,
-    "attack": 12,
-    "defense": 8,
-    "speed": 8,
-    "description": "弱い敵だが群れで行動する"
-  },
-  "オーク": {
-    "hp": 120,
-    "mp": 30,
-    "attack": 16,
-    "defense": 12,
-    "speed": 6,
-    "description": "力が強く頑丈な敵"
-  },
-  "ドラゴン": {
-    "hp": 200,
-    "mp": 80,
-    "attack": 25,
-    "defense": 20,
-    "speed": 15,
-    "description": "強力なボス敵"
-  }
-}
+[
+    {
+        "name": "勇者",
+        "hp": 100,
+        "mp": 50,
+        "strength": 15,
+        "defense": 10,
+        "magic": 8,
+        "speed": 12,
+        "level": 1,
+        "job": "戦士",
+        "exp": 0,
+        "next_level_exp": 100
+    },
+    {
+        "name": "魔法使い",
+        "hp": 70,
+        "mp": 100,
+        "strength": 6,
+        "defense": 6,
+        "magic": 18,
+        "speed": 10,
+        "level": 1,
+        "job": "魔法使い",
+        "exp": 0,
+        "next_level_exp": 100
+    },
+    {
+        "name": "盗賊",
+        "hp": 80,
+        "mp": 40,
+        "strength": 12,
+        "defense": 8,
+        "magic": 7,
+        "speed": 15,
+        "level": 1,
+        "job": "盗賊",
+        "exp": 0,
+        "next_level_exp": 100
+    }
+]
