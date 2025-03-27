@@ -8,3 +8,12 @@
 3/26
 - 山川さん 20日締めの運送会社があり、相談があった
 - 出荷済2500179627なってる。勝手に　→　未発行一覧にのこっていた
+
+3/27
+chkKaigai
+【ややこしいので確認】3/27 結果はja_JPの方が海外判定に使える
+select b.i_bp_cd,a.i_bp_cd from 
+(select * from t_ppp_mm_bp_all a where a.i_prnt_lcl_cd = 'ja_JP' order by i_bp_cd) b
+left outer join
+(select * from t_ppp_mm_bp_all a where a.i_cr_cd = 'JPY' order by i_bp_cd) a on (b.i_bp_cd=a.i_bp_cd)
+where a.i_bp_cd is null
